@@ -11,7 +11,7 @@ from api.database import Base
 class Session(Base):
     __tablename__ = "sessions"
     id = Column(Integer, primary_key=True)
-    date = Column(Date, nullable=False)
+    datestamp = Column(Date, nullable=False)
 
     runs = relationship("Run", backref="session")
 

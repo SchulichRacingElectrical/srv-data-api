@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 
 class SessionBase(BaseModel):
-    date: date = date.today()
+    datestamp: date = date.today()
 
     class Config:
         orm_mode = True
