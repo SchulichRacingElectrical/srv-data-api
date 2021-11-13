@@ -8,7 +8,6 @@ from pydantic import BaseModel
 
 
 class SessionBase(BaseModel):
-    id: int
     date: date = date.today()
 
     class Config:
@@ -16,7 +15,6 @@ class SessionBase(BaseModel):
 
 
 class RunBase(BaseModel):
-    id: int
     session_id: int
     start_time: datetime
     end_time: datetime
@@ -26,7 +24,6 @@ class RunBase(BaseModel):
 
 
 class SensorBase(BaseModel):
-    id: int
     name: str
 
     class Config:
@@ -34,7 +31,6 @@ class SensorBase(BaseModel):
 
 
 class ReadingBase(BaseModel):
-    id: int
     run_id: int
     sensor_id: int
     timestamp: datetime = datetime.now()
