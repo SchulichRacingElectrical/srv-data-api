@@ -1,3 +1,7 @@
+"""
+Handles loading configuration settings from .env file.
+"""
+
 from starlette.config import Config
 from starlette.datastructures import Secret
 
