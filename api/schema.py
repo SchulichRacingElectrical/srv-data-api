@@ -14,6 +14,10 @@ class SessionBase(BaseModel):
         orm_mode = True
 
 
+class SessionResponse(SessionBase):
+    id: int
+
+
 class RunBase(BaseModel):
     session_id: int
     start_time: datetime
@@ -23,11 +27,19 @@ class RunBase(BaseModel):
         orm_mode = True
 
 
+class RunResponse(RunBase):
+    id: int
+
+
 class SensorBase(BaseModel):
     name: str
 
     class Config:
         orm_mode = True
+
+
+class SensorResponse(SensorBase):
+    id: int
 
 
 class ReadingBase(BaseModel):
@@ -38,3 +50,7 @@ class ReadingBase(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ReadingResponse(ReadingBase):
+    id: int
