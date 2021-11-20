@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session as DBSession
 from api import schema
 from api.database import Base, engine
 from api.dependencies import get_db
-from api.models import Organization, Collection, Reading, Sensor, Session
+from api.models import Collection, Organization, Reading, Sensor, Session
 
 app = FastAPI()
 
@@ -73,12 +73,18 @@ def get_reading(reading_id: int, db: DBSession = Depends(get_db)):
 # Organizations
 @app.post("/organizations/", response_model=schema.OrganizationResponse, tags=["organizations"])
 def create_organization(organization: schema.OrganizationBase, db: DBSession = Depends(get_db)):
-    organization = Organization(**organization.dict()) # Convert from Pydantic obj to SQLAlchemy obj
+    organization = Organization(
+        **organization.dict()
+    )  # Convert from Pydantic obj to SQLAlchemy obj
     db.add(organization)
     db.commit()
     return organization
 
-@app.get("/organizations/{organization_id}", response_model=schema.OrganizationResponse, tags=["organizations"])
+
+@app.get(
+    "/organizations/{organization_id}",
+    response_model=schema.OrganizationResponse,
+    tags=["organizations"],
+)
 def get_organization(organization_id: int, db: DBSession = Depends(get_db)):
     return db.execute(select(Organization).where(Organization.id == organization_id)).first()
-

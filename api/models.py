@@ -7,12 +7,14 @@ from sqlalchemy.orm import relationship
 
 from api.database import Base
 
+
 class Organization(Base):
     __tablename__ = "organizations"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
 
     collections = relationship("Collection", backref="organization")
+
 
 class Collection(Base):
     __tablename__ = "collections"
