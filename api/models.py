@@ -8,18 +8,18 @@ from sqlalchemy.orm import relationship
 from api.database import Base
 
 
-class Session(Base):
-    __tablename__ = "sessions"
+class Collection(Base):
+    __tablename__ = "collections"
     id = Column(Integer, primary_key=True)
     datestamp = Column(Date, nullable=False)
 
-    runs = relationship("Run", backref="session")
+    sessions = relationship("Session", backref="collection")
 
 
-class Run(Base):
-    __tablename__ = "runs"
+class Session(Base):
+    __tablename__ = "sessions"
     id = Column(Integer, primary_key=True)
-    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
+    collection_id = Column(Integer, ForeignKey("collections.id"), nullable=False)
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=False)
 
@@ -33,10 +33,10 @@ class Sensor(Base):
 class Reading(Base):
     __tablename__ = "readings"
     id = Column(Integer, primary_key=True)
-    run_id = Column(Integer, ForeignKey("runs.id"), nullable=False)
+    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
     sensor_id = Column(Integer, ForeignKey("sensors.id"), nullable=False)
     timestamp = Column(DateTime, nullable=False)
     value = Column(Float, nullable=False)
 
-    run = relationship("Run", backref="readings")
+    session = relationship("Session", backref="readings")
     sensor = relationship("Sensor", backref="readings")

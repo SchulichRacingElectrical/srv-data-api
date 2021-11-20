@@ -7,19 +7,19 @@ from datetime import date, datetime
 from pydantic import BaseModel
 
 
-class SessionBase(BaseModel):
+class CollectionBase(BaseModel):
     datestamp: date = date.today()
 
     class Config:
         orm_mode = True
 
 
-class SessionResponse(SessionBase):
+class CollectionResponse(CollectionBase):
     id: int
 
 
-class RunBase(BaseModel):
-    session_id: int
+class SessionBase(BaseModel):
+    collection_id: int
     start_time: datetime
     end_time: datetime
 
@@ -27,7 +27,7 @@ class RunBase(BaseModel):
         orm_mode = True
 
 
-class RunResponse(RunBase):
+class SessionResponse(SessionBase):
     id: int
 
 
@@ -43,7 +43,7 @@ class SensorResponse(SensorBase):
 
 
 class ReadingBase(BaseModel):
-    run_id: int
+    session_id: int
     sensor_id: int
     timestamp: datetime = datetime.now()
     value: float
