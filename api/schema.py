@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class CollectionBase(BaseModel):
     datestamp: date = date.today()
+    organization_id = int
 
     class Config:
         orm_mode = True
@@ -53,4 +54,15 @@ class ReadingBase(BaseModel):
 
 
 class ReadingResponse(ReadingBase):
+    id: int
+
+
+class OrganizationBase(BaseModel):
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class OrganizationResponse(OrganizationBase):
     id: int
