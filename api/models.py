@@ -7,10 +7,17 @@ from sqlalchemy.orm import relationship
 
 from api.database import Base
 
+class Organization(Base):
+    __tablename__ = "organizations"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False, unique=True)
+
+    collections = relationship("Collection", backref="organization")
 
 class Collection(Base):
     __tablename__ = "collections"
     id = Column(Integer, primary_key=True)
+    organization_id = Column(Integer, ForeignKey("organizations.id"), nullable=False)
     datestamp = Column(Date, nullable=False)
 
     sessions = relationship("Session", backref="collection")
