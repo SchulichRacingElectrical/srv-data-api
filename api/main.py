@@ -5,17 +5,17 @@ from sqlalchemy.orm import Session as DBSession
 from api import schema
 from api.database import Base, engine
 from api.dependencies import get_db
-from api.models import Collection, Reading, Sensor, Session
+from api.models import Organization, Collection, Reading, Sensor, Session
 
 app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
 
-# Sessions
+# Collections
 @app.post("/collections/", response_model=schema.CollectionResponse, tags=["collections"])
 def create_collection(collection: schema.CollectionBase, db: DBSession = Depends(get_db)):
-    collection = Session(**collection)  # Convert from Pydantic obj to SQLAlchemy obj
+    collection = Collection(**collection.dict())  # Convert from Pydantic obj to SQLAlchemy obj
     db.add(collection)
     db.commit()
     return collection
@@ -31,7 +31,7 @@ def get_collection(collection_id: int, db: DBSession = Depends(get_db)):
 # Sensors
 @app.post("/sensors/", response_model=schema.SensorResponse, tags=["sensors"])
 def create_sensor(sensor: schema.SensorBase, db: DBSession = Depends(get_db)):
-    sensor = Sensor(**sensor)  # Convert from Pydantic obj to SQLAlchemy obj
+    sensor = Sensor(**sensor.dict())  # Convert from Pydantic obj to SQLAlchemy obj
     db.add(sensor)
     db.commit()
     return sensor
@@ -45,7 +45,7 @@ def get_sensor(sensor_id: int, db: DBSession = Depends(get_db)):
 # Sessions
 @app.post("/sessions/", response_model=schema.SessionResponse, tags=["sessions"])
 def create_session(session: schema.SessionBase, db: DBSession = Depends(get_db)):
-    session = Session(**session)  # Convert from Pydantic obj to SQLAlchemy obj
+    session = Session(**session.dict())  # Convert from Pydantic obj to SQLAlchemy obj
     db.add(session)
     db.commit()
     return session
@@ -59,7 +59,7 @@ def get_session(session_id: int, db: DBSession = Depends(get_db)):
 # Readings
 @app.post("/readings/", response_model=schema.ReadingResponse, tags=["readings"])
 def create_reading(reading: schema.ReadingBase, db: DBSession = Depends(get_db)):
-    reading = Reading(**reading)  # Convert from Pydantic obj to SQLAlchemy obj
+    reading = Reading(**reading.dict())  # Convert from Pydantic obj to SQLAlchemy obj
     db.add(reading)
     db.commit()
     return reading
@@ -68,3 +68,17 @@ def create_reading(reading: schema.ReadingBase, db: DBSession = Depends(get_db))
 @app.get("/readings/{reading_id}", response_model=schema.ReadingResponse, tags=["readings"])
 def get_reading(reading_id: int, db: DBSession = Depends(get_db)):
     return db.execute(select(Reading).where(Reading.id == reading_id)).first()
+
+
+# Organizations
+@app.post("/organizations/", response_model=schema.OrganizationResponse, tags=["organizations"])
+def create_organization(organization: schema.OrganizationBase, db: DBSession = Depends(get_db)):
+    organization = Organization(**organization.dict()) # Convert from Pydantic obj to SQLAlchemy obj
+    db.add(organization)
+    db.commit()
+    return organization
+
+@app.get("/organizations/{organization_id}", response_model=schema.OrganizationResponse, tags=["organizations"])
+def get_organization(organization_id: int, db: DBSession = Depends(get_db)):
+    return db.execute(select(Organization).where(Organization.id == organization_id)).first()
+
