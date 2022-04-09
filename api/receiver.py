@@ -1,6 +1,21 @@
 # Copyright Schulich Racing FSAE
 # Written By Joey Van Lierop
 
+"""
+TODO:
+Redis
+    - Credentials
+    - Message format
+
+Postgres
+    - Setup
+    - Tables and columns
+
+This file:
+    - Finish the message handler
+    - Batcher needs to properly structure the dictionaries
+"""
+
 import os
 import redis
 import time
